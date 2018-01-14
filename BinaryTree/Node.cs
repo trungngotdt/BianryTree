@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BinaryTree
 {
-    public class Node<T>:IComparable
+    public class Node<T> : IComparable
         where T : IComparable
     {
         private T data;
@@ -17,7 +17,7 @@ namespace BinaryTree
         public Node<T> Right { get => right; set => right = value; }
 
         public Node()
-        {            
+        {
             object dbNull = null;
             Data = Data is DBNull ? (T)dbNull : default(T);
             Letf = null;// Letf is DBNull ? (T)dbNull : default(T);
@@ -25,17 +25,30 @@ namespace BinaryTree
         }
 
 
-        public Node(T data,Node<T> nodelift,Node<T> noderight)
+        public Node(T data, Node<T> nodeChild, Node<T> nodeChild2)
         {
             this.Data = data;
-            this.Letf = nodelift;
-            this.Right = noderight;
+            if (nodeChild.CompareTo(this) == 0)
+            {
+                this.Letf = nodeChild;
+                this.Right = null;
+            }
+            else if (nodeChild < this)
+            {
+                this.Letf = nodeChild;
+                this.Right = nodeChild2;
+            }
+            else if (nodeChild > this)
+            {
+                this.Letf = nodeChild2;
+                this.Right = nodeChild;
+            }
         }
         public Node(T data)
         {
             this.Data = data;
-            this. Letf = null;// Letf is DBNull ? (T)dbNull : default(T);
-            this. Right = null;
+            this.Letf = null;// Letf is DBNull ? (T)dbNull : default(T);
+            this.Right = null;
         }
 
         public Node(Node<T> node)
@@ -43,12 +56,6 @@ namespace BinaryTree
             this.Data = node.Data;
             this.Letf = node.Letf;
             this.Right = node.Right;
-        }
-
-        public bool Remove(Node<int> item1)
-        {
-            return false;
-            //throw new NotImplementedException();
         }
 
         public void AddRange(Node<T>[] node)
@@ -79,6 +86,8 @@ namespace BinaryTree
             }
         }
 
+
+
         public object Predecessor()
         {
             return this.Letf.GetMax();
@@ -94,46 +103,93 @@ namespace BinaryTree
         public T GetMax()
         {
             var temp = this;
-            if (this.Data==null)
+            if (this.Data == null)
             {
                 return this.Data;
             }
             while (true)
             {
-               if (temp.Right == null)
+                if (temp.Right == null)
                 {
                     return temp.Data;
                 }
-                else if(temp.Right!=null)
+                else if (temp.Right != null)
                 {
-                    temp = temp.Right;                    
-                }                
+                    temp = temp.Right;
+                }
             }
         }
 
-        public void Insert( Node<T> item)
+        public bool Remove(Node<T> item)
+        {
+            Node<T> node = this;
+            Node<T> nodeNull = new Node<T>();
+            if (item==null)
+            {
+                return false;
+            }
+            while (node != null)
+            {
+                if (node.CompareTo(item) == 0)
+                {
+                    if (node.Right != null && node.Letf == null)
+                    {
+                        return true;
+                    }
+                    else if (node.Right == null && node.Letf != null)
+                    {
+                        return true;
+                    }
+                    else if (node.Right == null && node.Letf == null)
+                    {
+                        object dbNull = null;
+                        node.Data = Data is DBNull ? (T)dbNull : default(T);
+                        //.Right;
+                        node.Letf = null;
+                        node.Right = null;
+                        return true;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                if (node < item)
+                {
+                    node = node.Right;
+                }
+                else
+                {
+                    node = node.Letf;
+                }
+            }
+            return false;
+            //throw new NotImplementedException();
+        }
+
+        public void Insert(Node<T> item)
         {
             Node<T> temp = this;
-            if (item==null)
+            if (item == null)
             {
                 return;
             }
-            if (this.Data==null)
+            if (this.Data == null)
             {
                 this.Data = item.Data;
                 this.Letf = item.Letf;
                 this.Right = item.Right;
             }
             //Node<T> temp = root;
-            while (item!=null)
+            while (item != null)
             {
                 if (temp.Data.Equals(item.Data))
                 {
                     break;
                 }
-                if (item<temp)
+                if (item < temp)
                 {
-                    if (temp.Letf!=null)
+                    if (temp.Letf != null)
                     {
                         temp = temp.Letf;
                     }
@@ -143,9 +199,9 @@ namespace BinaryTree
                         break;
                     }
                 }
-                else if(item>temp)
+                else if (item > temp)
                 {
-                    if (temp.Right!=null)
+                    if (temp.Right != null)
                     {
                         temp = temp.Right;
                     }
@@ -161,14 +217,14 @@ namespace BinaryTree
 
         public bool Contains(Node<T> node)
         {
-            Node< T> temp = this ;
-            while (temp!=null)
+            Node<T> temp = this;
+            while (temp != null)
             {
-                if (temp.CompareTo(node)==0)
+                if (temp.CompareTo(node) == 0)
                 {
                     return true;
                 }
-                if (temp>node)
+                if (temp > node)
                 {
                     temp = temp.Letf;
                 }
@@ -184,7 +240,7 @@ namespace BinaryTree
         {
             try
             {
-                Node<T> node=obj as Node<T>;
+                Node<T> node = obj as Node<T>;
                 return this.Data.CompareTo(node.Data);
             }
             catch (Exception ex)
@@ -192,10 +248,10 @@ namespace BinaryTree
                 throw ex;
             }
         }
-        
-        public static bool  operator <(Node<T> node ,Node<T> node2)
+
+        public static bool operator <(Node<T> node, Node<T> node2)
         {
-            return node.Data.CompareTo(node2.Data)<0;
+            return node.Data.CompareTo(node2.Data) < 0;
         }
         public static bool operator >(Node<T> node, Node<T> node2)
         {
