@@ -44,11 +44,14 @@ namespace BinaryTreeTest
             Node<string> st = new Node<string>();
             st.Insert(new Node<string>("S"));
             var item1C =  nodeRoot.Contains(item1);
-            var item2C = nodeRoot.Contains(item2);
+            var item2C = nodeRoot.Contains(item3);
+
             var falseCon = nodeRoot.Contains(new Node<int>());
+            var falseNull = nodeRoot.Contains(null);
             Assert.IsTrue(item1C);
             Assert.IsTrue(item2C);
             Assert.IsFalse(falseCon);
+            Assert.IsFalse(falseNull);
         }
 
         [Test]
@@ -89,6 +92,18 @@ namespace BinaryTreeTest
             Assert.IsFalse(result4);
             Assert.IsFalse(result5);
             Assert.IsTrue(result6);
+        }
+
+        [Test]
+        public void FindNodeTest()
+        {
+            Node<int> result = nodeRoot.FindNode(item);
+            Node<int> result1 = nodeRoot.FindNode(null);
+            Node<int> result2 = nodeRoot.FindNode(new Node<int>(10000));
+            Assert.AreSame(item, result);
+            Assert.IsNull(result1);
+            Assert.IsNull(result2);
+
         }
     }
 }

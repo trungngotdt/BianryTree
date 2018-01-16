@@ -132,12 +132,9 @@ namespace BinaryTree
             {
                 if (node.CompareTo(item) == 0)
                 {
-                    if (node.Right != null && node.Letf == null)
+                    if (node.Right != null && node.Letf == null|| node.Right == null && node.Letf != null)
                     {
-                        return true;
-                    }
-                    else if (node.Right == null && node.Letf != null)
-                    {
+                        node = node.Right ?? node.Letf;
                         return true;
                     }
                     else if (node.Right == null && node.Letf == null)
@@ -151,6 +148,11 @@ namespace BinaryTree
                     }
                     else
                     {
+                        var suc= (T)node.Successor();
+                        var nodeFind= node.FindNode(new Node<T>(suc));
+                        nodeFind = null;//.Remove(new Node<T>((T)suc));
+                        //Node<T> succ =new Node<T>((T) node.Successor(),node.Right,node.Letf);
+                        node.Data = suc;
                         return true;
                     }
                 }
@@ -164,6 +166,32 @@ namespace BinaryTree
                 }
             }
             return false;
+            //throw new NotImplementedException();
+        }
+
+        public Node<T> FindNode(Node<T> node)
+        {
+            if (node==null)
+            {
+                return null;
+            }
+            Node<T> temp = this;
+            while (temp != null)
+            {
+                if (temp.CompareTo(node) == 0)
+                {
+                    return temp;
+                }
+                if (temp > node)
+                {
+                    temp = temp.Letf;
+                }
+                else
+                {
+                    temp = temp.Right;
+                }
+            }
+            return null;
             //throw new NotImplementedException();
         }
 
@@ -218,6 +246,10 @@ namespace BinaryTree
         public bool Contains(Node<T> node)
         {
             Node<T> temp = this;
+            if (node==null)
+            {
+                return false;
+            }
             while (temp != null)
             {
                 if (temp.CompareTo(node) == 0)
