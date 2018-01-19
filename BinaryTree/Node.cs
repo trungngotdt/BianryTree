@@ -66,6 +66,18 @@ namespace BinaryTree
             }
         }
 
+        public object Predecessor()
+        {
+            return this.Letf.GetMax();
+            //throw new NotImplementedException();
+        }
+
+        public object Successor()
+        {
+            return this.Right.GetMin();
+            //throw new NotImplementedException();
+        }
+
         public T GetMin()
         {
             var temp = this;
@@ -84,20 +96,6 @@ namespace BinaryTree
                     temp = temp.Letf;
                 }
             }
-        }
-
-
-
-        public object Predecessor()
-        {
-            return this.Letf.GetMax();
-            //throw new NotImplementedException();
-        }
-
-        public object Successor()
-        {
-            return this.Right.GetMin();
-            //throw new NotImplementedException();
         }
 
         public T GetMax()
@@ -124,7 +122,7 @@ namespace BinaryTree
         {
             Node<T> node = this;
             Node<T> nodeNull = new Node<T>();
-            if (item==null)
+            if (item == null)
             {
                 return false;
             }
@@ -132,27 +130,45 @@ namespace BinaryTree
             {
                 if (node.CompareTo(item) == 0)
                 {
-                    if (node.Right != null && node.Letf == null|| node.Right == null && node.Letf != null)
+                    if (node.Right != null && node.Letf == null || node.Right == null && node.Letf != null)//one child
                     {
-                        node = node.Right ?? node.Letf;
+                        var parent = FindParent(node);
+                        if (node.Right!=null)
+                        {
+                            
+                            parent.Item1.Letf = parent.Item2 == -1 ? parent.Item1.Letf.Right : parent.Item1.Letf;
+                            parent.Item1.Right = parent.Item2 == 1  ? parent.Item1.Right.Right : parent.Item1.Right;
+                        }
+                        else if(node.Letf!=null)
+                        {
+                            parent.Item1.Letf = parent.Item2 == -1 ? parent.Item1.Letf.Letf  : parent.Item1.Letf;
+                            parent.Item1.Right = parent.Item2 == 1 ? parent.Item1.Right.Letf : parent.Item1.Right;
+                        }
                         return true;
                     }
-                    else if (node.Right == null && node.Letf == null)
+                    else if (node.Right == null && node.Letf == null)//no child
                     {
-                        object dbNull = null;
-                        node.Data = Data is DBNull ? (T)dbNull : default(T);
-                        //.Right;
-                        node.Letf = null;
-                        node.Right = null;
+                        var parent = FindParent(node);
+                        parent.Item1.Letf = parent.Item2 == -1 ? null : parent.Item1.Letf;
+                        parent.Item1.Right = parent.Item2 == 1? null : parent.Item1.Right;
                         return true;
                     }
-                    else
+                    else//two child
                     {
-                        var suc= (T)node.Successor();
-                        var nodeFind= node.FindNode(new Node<T>(suc));
-                        nodeFind = null;//.Remove(new Node<T>((T)suc));
-                        //Node<T> succ =new Node<T>((T) node.Successor(),node.Right,node.Letf);
+                        var suc = (T)node.Successor();
+                        var nodeFind = node.FindNode(new Node<T>(suc));
+                        
+                        var parent = FindParent(new Node<T>(suc));
                         node.Data = suc;
+                        if (nodeFind.Right != null)
+                        {
+                            parent.Item1.Right = nodeFind.Right;
+                        }
+                        else
+                        {
+                            parent.Item1.Letf = null;
+                        }
+                        
                         return true;
                     }
                 }
@@ -169,9 +185,41 @@ namespace BinaryTree
             //throw new NotImplementedException();
         }
 
+        public Tuple<Node<T>, int> FindParent(Node<T> node)
+        {
+            int check = 0;
+            if (node == null)
+            {
+                return null;
+            }
+            Node<T> temp = this;
+            Node<T> parent = null;
+            while (temp != null)
+            {
+                if (temp.CompareTo(node) == 0)
+                {
+                    return new Tuple<Node<T>, int>(parent, check);// temp;
+                }
+                if (temp > node)
+                {
+                    parent = temp;
+                    check = -1;
+                    temp = temp.Letf;
+                }
+                else
+                {
+                    parent = temp;
+                    check = 1;
+                    temp = temp.Right;
+
+                }
+            }
+            return null;
+        }
+
         public Node<T> FindNode(Node<T> node)
         {
-            if (node==null)
+            if (node == null)
             {
                 return null;
             }
@@ -246,7 +294,7 @@ namespace BinaryTree
         public bool Contains(Node<T> node)
         {
             Node<T> temp = this;
-            if (node==null)
+            if (node == null)
             {
                 return false;
             }

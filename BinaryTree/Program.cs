@@ -50,7 +50,16 @@ namespace BinaryTree
                 new Node<int>(76), new Node<int>(75), new Node<int>(74), new Node<int>(98), new Node<int>(99),
                 new Node<int>(43),new Node<int>(44),new Node<int>(51),new Node<int>(59),new Node<int>(60)
             });
-            nodeRoot.Insert(null);
+            var result1 = nodeRoot.Remove(item);//Delete with no child
+            var result2 = nodeRoot.Remove(item1);//Delete with one child (Left)
+            var result7 = nodeRoot.Remove(new Node<int>(59));//Delete with one child (Right)
+            nodeRoot.Remove(item3);
+                nodeRoot.Insert(null);
+            var i= nodeRoot.FindNode(new Node<int>(23));
+            i = null;
+
+            var ia = nodeRoot.FindNode(new Node<int>(23));
+            ia.Right = null;
             //Node<int> nodeaa = new Node<int>(aaa);
             nodeRoot.Remove(new Node<int>(23));
             Console.ReadLine();

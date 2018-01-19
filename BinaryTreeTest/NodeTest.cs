@@ -92,6 +92,23 @@ namespace BinaryTreeTest
             Assert.IsFalse(result4);
             Assert.IsFalse(result5);
             Assert.IsTrue(result6);
+            Assert.IsFalse(nodeRoot.Contains(new Node<int>(7)));
+            Assert.IsFalse(nodeRoot.Contains(new Node<int>(4)));
+            Assert.IsFalse(nodeRoot.Contains(new Node<int>(59)));
+            Assert.IsFalse(nodeRoot.Contains(new Node<int>(71)));
+            Assert.IsFalse(nodeRoot.Contains(new Node<int>(15)));
+        }
+
+        [Test]
+        public void FindParentTest()
+        {
+            var result = nodeRoot.FindParent(new Node<int>(43));
+            var result1 = nodeRoot.FindParent(null);
+            var result2 = nodeRoot.FindParent(new Node<int>(10000));
+            Assert.AreSame(item4, result.Item1);
+            Assert.AreEqual(-1, result.Item2);
+            Assert.IsNull(result1);
+            Assert.IsNull(result2);
         }
 
         [Test]
