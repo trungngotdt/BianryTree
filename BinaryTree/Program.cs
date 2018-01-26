@@ -10,7 +10,7 @@ namespace BinaryTree
     {
         static void Main(string[] args)
         {
-            int aaa ;
+            int aaa =1;
             List<string> list = new List<string>();
             list.Add("A");
             List<string> listb = new List<string>();
@@ -36,20 +36,21 @@ namespace BinaryTree
             item3 = new Node<int>(71);
             item4 = new Node<int>(50);
             var temp = item;
-            temp = item1;
             nodeRoot = new Node<int>(15, new Node<int>(6), new Node<int>(23));
             nodeRoot.Insert(item);
             nodeRoot.Insert(item2);
             nodeRoot.Insert(item3);
             nodeRoot.Insert(item4);
             nodeRoot.Insert(item1);
-
             nodeRoot.Insert(new Node<int>(1));
             nodeRoot.Insert(new Node<int>(77));
             nodeRoot.AddRange(new Node<int>[] {
                 new Node<int>(76), new Node<int>(75), new Node<int>(74), new Node<int>(98), new Node<int>(99),
                 new Node<int>(43),new Node<int>(44),new Node<int>(51),new Node<int>(59),new Node<int>(60)
             });
+            var pp = nodeRoot.FindParent(item1);
+            temp = item1;
+            
             var result1 = nodeRoot.Remove(item);//Delete with no child
             var result2 = nodeRoot.Remove(item1);//Delete with one child (Left)
             var result7 = nodeRoot.Remove(new Node<int>(59));//Delete with one child (Right)

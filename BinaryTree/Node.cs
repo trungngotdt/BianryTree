@@ -10,17 +10,17 @@ namespace BinaryTree
         where T : IComparable
     {
         private T data;
-        private Node<T> letf;
+        private Node<T> left;
         private Node<T> right;
         public T Data { get => data; set => data = value; }
-        public Node<T> Letf { get => letf; set => letf = value; }
+        public Node<T> Left { get => left; set => left = value; }
         public Node<T> Right { get => right; set => right = value; }
 
         public Node()
         {
             object dbNull = null;
             Data = Data is DBNull ? (T)dbNull : default(T);
-            Letf = null;// Letf is DBNull ? (T)dbNull : default(T);
+            Left = null;// Letf is DBNull ? (T)dbNull : default(T);
             Right = null;
         }
 
@@ -30,34 +30,38 @@ namespace BinaryTree
             this.Data = data;
             if (nodeChild.CompareTo(this) == 0)
             {
-                this.Letf = nodeChild;
+                this.Left = nodeChild;
                 this.Right = null;
             }
             else if (nodeChild < this)
             {
-                this.Letf = nodeChild;
+                this.Left = nodeChild;
                 this.Right = nodeChild2;
             }
             else if (nodeChild > this)
             {
-                this.Letf = nodeChild2;
+                this.Left = nodeChild2;
                 this.Right = nodeChild;
             }
         }
         public Node(T data)
         {
             this.Data = data;
-            this.Letf = null;// Letf is DBNull ? (T)dbNull : default(T);
+            this.Left = null;// Letf is DBNull ? (T)dbNull : default(T);
             this.Right = null;
         }
 
         public Node(Node<T> node)
         {
             this.Data = node.Data;
-            this.Letf = node.Letf;
+            this.Left = node.Left;
             this.Right = node.Right;
         }
 
+        /// <summary>
+        /// Adds the elements of the specified collection to the BST
+        /// </summary>
+        /// <param name="node"></param>
         public void AddRange(Node<T>[] node)
         {
             foreach (var item in node)
@@ -66,18 +70,31 @@ namespace BinaryTree
             }
         }
 
+
+        /// <summary>
+        /// Find inorder predecessor of a node
+        /// </summary>
+        /// <returns></returns>
         public object Predecessor()
         {
-            return this.Letf.GetMax();
+            return this.Left.GetMax();
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Find inorder successor of a node
+        /// </summary>
+        /// <returns></returns>
         public object Successor()
         {
             return this.Right.GetMin();
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        ///Return a minimum value in BST 
+        /// </summary>
+        /// <returns></returns>
         public T GetMin()
         {
             var temp = this;
@@ -87,17 +104,21 @@ namespace BinaryTree
             }
             while (true)
             {
-                if (temp.Letf == null)
+                if (temp.Left == null)
                 {
                     return temp.Data;
                 }
-                else if (temp.Letf != null)
+                else if (temp.Left != null)
                 {
-                    temp = temp.Letf;
+                    temp = temp.Left;
                 }
             }
         }
 
+        /// <summary>
+        /// Return a maximum value in BST
+        /// </summary>
+        /// <returns></returns>
         public T GetMax()
         {
             var temp = this;
@@ -118,10 +139,14 @@ namespace BinaryTree
             }
         }
 
+        /// <summary>
+        /// Remove a element in BST
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Remove(Node<T> item)
         {
             Node<T> node = this;
-            Node<T> nodeNull = new Node<T>();
             if (item == null)
             {
                 return false;
@@ -130,26 +155,25 @@ namespace BinaryTree
             {
                 if (node.CompareTo(item) == 0)
                 {
-                    if (node.Right != null && node.Letf == null || node.Right == null && node.Letf != null)//one child
+                    if (node.Right != null && node.Left == null || node.Right == null && node.Left != null)//one child
                     {
                         var parent = FindParent(node);
                         if (node.Right!=null)
-                        {
-                            
-                            parent.Item1.Letf = parent.Item2 == -1 ? parent.Item1.Letf.Right : parent.Item1.Letf;
+                        {                            
+                            parent.Item1.Left = parent.Item2 == -1 ? parent.Item1.Left.Right : parent.Item1.Left;
                             parent.Item1.Right = parent.Item2 == 1  ? parent.Item1.Right.Right : parent.Item1.Right;
                         }
-                        else if(node.Letf!=null)
+                        else if(node.Left != null)
                         {
-                            parent.Item1.Letf = parent.Item2 == -1 ? parent.Item1.Letf.Letf  : parent.Item1.Letf;
-                            parent.Item1.Right = parent.Item2 == 1 ? parent.Item1.Right.Letf : parent.Item1.Right;
+                            parent.Item1.Left = parent.Item2 == -1 ? parent.Item1.Left.Left : parent.Item1.Left;
+                            parent.Item1.Right = parent.Item2 == 1 ? parent.Item1.Right.Left : parent.Item1.Right;
                         }
                         return true;
                     }
-                    else if (node.Right == null && node.Letf == null)//no child
+                    else if (node.Right == null && node.Left == null)//no child
                     {
                         var parent = FindParent(node);
-                        parent.Item1.Letf = parent.Item2 == -1 ? null : parent.Item1.Letf;
+                        parent.Item1.Left = parent.Item2 == -1 ? null : parent.Item1.Left;
                         parent.Item1.Right = parent.Item2 == 1? null : parent.Item1.Right;
                         return true;
                     }
@@ -166,9 +190,8 @@ namespace BinaryTree
                         }
                         else
                         {
-                            parent.Item1.Letf = null;
-                        }
-                        
+                            parent.Item1.Left = null;
+                        }                        
                         return true;
                     }
                 }
@@ -178,13 +201,18 @@ namespace BinaryTree
                 }
                 else
                 {
-                    node = node.Letf;
+                    node = node.Left;
                 }
             }
             return false;
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Searches for an parent of element that matches the conditions defined by the specified
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public Tuple<Node<T>, int> FindParent(Node<T> node)
         {
             int check = 0;
@@ -204,7 +232,7 @@ namespace BinaryTree
                 {
                     parent = temp;
                     check = -1;
-                    temp = temp.Letf;
+                    temp = temp.Left;
                 }
                 else
                 {
@@ -217,6 +245,12 @@ namespace BinaryTree
             return null;
         }
 
+        /*
+        /// <summary>
+        /// Searches for an element that matches the conditions defined by the specified
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public Node<T> FindNode(Node<T> node)
         {
             if (node == null)
@@ -242,7 +276,11 @@ namespace BinaryTree
             return null;
             //throw new NotImplementedException();
         }
-
+        */
+        /// <summary>
+        /// Adds an object to the BST
+        /// </summary>
+        /// <param name="item"></param>
         public void Insert(Node<T> item)
         {
             Node<T> temp = this;
@@ -253,7 +291,7 @@ namespace BinaryTree
             if (this.Data == null)
             {
                 this.Data = item.Data;
-                this.Letf = item.Letf;
+                this.Left = item.Left;
                 this.Right = item.Right;
             }
             //Node<T> temp = root;
@@ -265,13 +303,13 @@ namespace BinaryTree
                 }
                 if (item < temp)
                 {
-                    if (temp.Letf != null)
+                    if (temp.Left != null)
                     {
-                        temp = temp.Letf;
+                        temp = temp.Left;
                     }
                     else
                     {
-                        temp.Letf = item;
+                        temp.Left = item;
                         break;
                     }
                 }
@@ -290,7 +328,11 @@ namespace BinaryTree
             }
         }
 
-
+        /// <summary>
+        /// Determines whether an element is in the BST
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public bool Contains(Node<T> node)
         {
             Node<T> temp = this;
@@ -306,7 +348,7 @@ namespace BinaryTree
                 }
                 if (temp > node)
                 {
-                    temp = temp.Letf;
+                    temp = temp.Left;
                 }
                 else
                 {

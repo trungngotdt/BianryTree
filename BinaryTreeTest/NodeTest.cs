@@ -73,7 +73,7 @@ namespace BinaryTreeTest
 
             var pred = nodeRoot.Predecessor();
             Assert.AreEqual(nodeRoot.Right.GetMin(), suc);
-            Assert.AreEqual(nodeRoot.Letf.GetMax(), pred);
+            Assert.AreEqual(nodeRoot.Left.GetMax(), pred);
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace BinaryTreeTest
             Node<int> result = nodeRoot.FindNode(item);
             Node<int> result1 = nodeRoot.FindNode(null);
             Node<int> result2 = nodeRoot.FindNode(new Node<int>(10000));
-            Assert.AreSame(item, result);
+            Assert.IsTrue(new Node<int>(7).CompareTo( result)==0);
             Assert.IsNull(result1);
             Assert.IsNull(result2);
 
