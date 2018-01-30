@@ -11,3 +11,4 @@ C:\Users\Admin\Documents\Visual Studio 2017\Projects\BinaryTree\BinaryTree\bin\D
 C:\Users\Admin\Documents\Visual Studio 2017\Projects\BinaryTree\BinaryTree\bin\Debug\Mono.Cecil.Pdb.dll
 C:\Users\Admin\Documents\Visual Studio 2017\Projects\BinaryTree\BinaryTree\bin\Debug\Mono.Cecil.Mdb.dll
 C:\Users\Admin\Documents\Visual Studio 2017\Projects\BinaryTree\BinaryTree\bin\Debug\Mono.Cecil.Rocks.dll
+C:\Users\Admin\Documents\Visual Studio 2017\Projects\BinaryTree\BinaryTree\obj\Debug\BinaryTree.csprojResolveAssemblyReference.cache

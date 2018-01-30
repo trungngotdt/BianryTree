@@ -183,7 +183,13 @@ namespace BinaryTree
                         var nodeFind = node.FindNode(new Node<T>(suc));
                         
                         var parent = FindParent(new Node<T>(suc));
-                        node.Data = suc;
+                        
+                        if (parent.Item1.Data.Equals(item.Data))
+                        {
+                            parent.Item1.Right = null;
+                            node.Data = suc;
+                            return true;
+                        }
                         if (nodeFind.Right != null)
                         {
                             parent.Item1.Right = nodeFind.Right;
@@ -191,7 +197,8 @@ namespace BinaryTree
                         else
                         {
                             parent.Item1.Left = null;
-                        }                        
+                        }
+                        node.Data = suc;
                         return true;
                     }
                 }

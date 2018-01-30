@@ -10,6 +10,13 @@ namespace BinaryTree
     {
         static void Main(string[] args)
         {
+            List<int> listas = new List<int>( );
+            for (int h = 0; h < 100; h++)
+            {
+                listas.Add(h);
+                listas.Add(h);
+            }
+            var a = listas.AsParallel().Where(p => p == 50).ToList();
             int aaa =1;
             List<string> list = new List<string>();
             list.Add("A");
@@ -45,10 +52,11 @@ namespace BinaryTree
             nodeRoot.Insert(new Node<int>(1));
             nodeRoot.Insert(new Node<int>(77));
             nodeRoot.AddRange(new Node<int>[] {
-                new Node<int>(76), new Node<int>(75), new Node<int>(74), new Node<int>(98), new Node<int>(99),
+                new Node<int>(76), new Node<int>(75), /*new Node<int>(74),*/ new Node<int>(98), new Node<int>(99),
                 new Node<int>(43),new Node<int>(44),new Node<int>(51),new Node<int>(59),new Node<int>(60)
             });
             var pp = nodeRoot.FindParent(item1);
+            //nodeRoot.Remove(new Node<int>(6));
             temp = item1;
             
             var result1 = nodeRoot.Remove(item);//Delete with no child
