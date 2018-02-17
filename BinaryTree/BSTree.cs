@@ -64,9 +64,11 @@ namespace BinaryTree
         /// <returns></returns>
         public object Predecessor()
         {
-            return GetMax(root.Left);
+            return Predecessor(root);
             //throw new NotImplementedException();
         }
+
+
         #endregion
 
         #region GetSuccessor
@@ -76,7 +78,7 @@ namespace BinaryTree
         /// <returns><seealso cref="Node{T}"/></returns>
         public object Successor()
         {
-            return GetMin(root.Right);//root.Right.GetMin();
+            return Successor(root);//GetMin(root.Right);//root.Right.GetMin();
             //throw new NotImplementedException();
         }
 
@@ -93,6 +95,7 @@ namespace BinaryTree
         #endregion
 
         #region GetMin
+
         /// <summary>
         /// Return a minimum value in Node
         /// </summary>
@@ -209,6 +212,33 @@ namespace BinaryTree
 
         #endregion
 
+        #region Size
+
+        /// <summary>
+        /// Return size of tree
+        /// </summary>
+        /// <returns></returns>
+        public int Size()
+        {
+            return Size(root);
+        }
+
+        /// <summary>
+        /// Return size of node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private int Size(Node<T> node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+            else return node.Size;
+        }
+        #endregion
+
+        #region Traversal
         public void LRN(Node<T> node)
         {
             if (node==null)
@@ -257,6 +287,14 @@ namespace BinaryTree
             LNR(root);
         }
 
+        #endregion
+
+        #region Remove
+        /// <summary>
+        ///  Remove a element in BST - tree root
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public bool Remove(Node<T> node)
         {
             return Remove(node, root);
@@ -267,7 +305,7 @@ namespace BinaryTree
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public bool Remove(Node<T> item, Node<T> nodeTree)
+        private bool Remove(Node<T> item, Node<T> nodeTree)
         {
             Node<T> node = nodeTree;
             if (item == null)
@@ -346,7 +384,9 @@ namespace BinaryTree
             return false;
             //throw new NotImplementedException();
         }
+        #endregion
 
+        #region Find Parent's node  
         /// <summary>
         /// Searches for an parent of element that matches the conditions defined by the specified
         /// </summary>
@@ -384,7 +424,9 @@ namespace BinaryTree
             return null;
         }
 
+        #endregion
 
+        #region Find a node
         /// <summary>
         /// Searches for an element that matches the conditions defined by the specified
         /// </summary>
@@ -416,6 +458,8 @@ namespace BinaryTree
             //throw new NotImplementedException();
         }
 
+        #endregion
+
         /// <summary>
         /// Adds an object to the BST
         /// </summary>
@@ -429,7 +473,7 @@ namespace BinaryTree
             }
             if (root == null)
             {
-                root = new Node<T>(item);
+                root = new Node<T>(item.Data,1);
                 return;
             }
             //Node<T> temp = root;
@@ -439,15 +483,18 @@ namespace BinaryTree
                 {
                     break;
                 }
+                temp.Size = 1 + Size(temp);
                 if (item < temp)
                 {
                     if (temp.Left != null)
                     {
+                        
                         temp = temp.Left;
                     }
                     else
                     {
                         temp.Left = item;
+                        
                         break;
                     }
                 }
@@ -455,18 +502,28 @@ namespace BinaryTree
                 {
                     if (temp.Right != null)
                     {
+                        
                         temp = temp.Right;
                     }
                     else
                     {
                         temp.Right = item;
+                        
                         break;
                     }
                 }
+                //item.Size = 1 + Size(item.Left) + Size(item.Right);
             }
         }
 
-
+        public int Rank(Node<T> node, Node<T> nodeTree)
+        {
+            if (nodeTree == null) return 0;
+            int cmp = node.CompareTo(nodeTree);
+            if (cmp < 0) return Rank(node, nodeTree.Left);
+            else if (cmp > 0) return 1 + Size(nodeTree.Left) + Rank(node, nodeTree.Right);
+            else return Size(nodeTree.Left);
+        }
         public int CompareTo(object obj)
         {
             throw new NotImplementedException();

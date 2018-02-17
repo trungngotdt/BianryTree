@@ -10,6 +10,8 @@ namespace BinaryTree
     {
         static void Main(string[] args)
         {
+            int[] aa = { 10  ,20,12,11,13,22,21,23, 15,16,17};
+            
             string a = "Btn10Btn11";
             var dn = a.IndexOf("n");
             var cn = a.LastIndexOf("n");
@@ -21,6 +23,7 @@ namespace BinaryTree
             BSTree<int> tree=new BSTree<int>();
             tree.root = null;// new Node<int>(10);
             tree.AddRange(new int[] {2,3,4 });
+            tree.AddRange(aa);tree.LNR();
             tree.LRN(tree.root);
             Console.WriteLine();
             tree.LNR();

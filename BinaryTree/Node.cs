@@ -12,9 +12,12 @@ namespace BinaryTree
         private T data;
         private Node<T> left;
         private Node<T> right;
+        private int size;
+
         public T Data { get => data; set => data = value; }
         public Node<T> Left { get => left; set => left = value; }
         public Node<T> Right { get => right; set => right = value; }
+        public int Size { get => size; set => size = value; }
 
         public Node()
         {
@@ -44,11 +47,22 @@ namespace BinaryTree
                 this.Right = nodeChild;
             }
         }
+
         public Node(T data)
         {
             this.Data = data;
             this.Left = null;// Letf is DBNull ? (T)dbNull : default(T);
             this.Right = null;
+            this.Size = 1;
+        }
+
+
+        public Node(T data,int size)
+        {
+            this.Data = data;
+            this.Left = null;// Letf is DBNull ? (T)dbNull : default(T);
+            this.Right = null;
+            this.Size = size;
         }
 
         public Node(Node<T> node)
@@ -56,6 +70,7 @@ namespace BinaryTree
             this.Data = node.Data;
             this.Left = node.Left;
             this.Right = node.Right;
+            this.Size = node.Size;
         }
         
         public int CompareTo(object obj)
