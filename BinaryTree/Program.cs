@@ -10,6 +10,22 @@ namespace BinaryTree
     {
         static void Main(string[] args)
         {
+            string a = "Btn10Btn11";
+            var dn = a.IndexOf("n");
+            var cn = a.LastIndexOf("n");
+            var bd = a.LastIndexOf("B");
+            var number= a.Substring(dn + 1, bd - dn - 1);
+            var numStr = a.Length - cn - 1;
+            var number2 = a.Substring(cn + 1, numStr);
+            var b= a.StartsWith("Btn");
+            BSTree<int> tree=new BSTree<int>();
+            tree.root = null;// new Node<int>(10);
+            tree.AddRange(new int[] {2,3,4 });
+            tree.LRN(tree.root);
+            Console.WriteLine();
+            tree.LNR();
+            int debug = 0;
+            /*
             List<int> listas = new List<int>( );
             for (int h = 0; h < 100; h++)
             {
@@ -32,6 +48,13 @@ namespace BinaryTree
             listd[1] = "R";
             listb = null;
             Node<int> nodeRoot;
+            nodeRoot = new Node<int>(10);
+            int[] aa = { 10 }; //{ 20,12,11,13,22,21,23 };//{15,16,17,10,11,12 };
+            foreach (var itema in aa)
+            {
+                nodeRoot.Insert(new Node<int>(itema));
+            }
+            int debug = 0;
             Node<int> item;//= new Node<int>(3);
             Node<int> item1;//= new Node<int>(1);
             Node<int> item2;//= new Node<int>(4);
@@ -52,7 +75,7 @@ namespace BinaryTree
             nodeRoot.Insert(new Node<int>(1));
             nodeRoot.Insert(new Node<int>(77));
             nodeRoot.AddRange(new Node<int>[] {
-                new Node<int>(76), new Node<int>(75), /*new Node<int>(74),*/ new Node<int>(98), new Node<int>(99),
+                new Node<int>(76), new Node<int>(75),  new Node<int>(98), new Node<int>(99),
                 new Node<int>(43),new Node<int>(44),new Node<int>(51),new Node<int>(59),new Node<int>(60)
             });
             var pp = nodeRoot.FindParent(item1);
@@ -71,6 +94,7 @@ namespace BinaryTree
             ia.Right = null;
             //Node<int> nodeaa = new Node<int>(aaa);
             nodeRoot.Remove(new Node<int>(23));
+            */
             Console.ReadLine();
         }
     }
